@@ -4,6 +4,7 @@ import image from '@astrojs/image'
 import storyblok from '@storyblok/astro'
 import tailwind from '@astrojs/tailwind'
 import { defineConfig } from 'astro/config'
+import basicSsl from '@vitejs/plugin-basic-ssl'
 
 dotenv.config()
 
@@ -19,6 +20,13 @@ export default defineConfig({
     }),
     storyblok({
       accessToken: process.env.STORYBLOK,
+      version: 'draft',
     }),
   ],
+  vite: {
+    plugins: [basicSsl()],
+    server: {
+      https: true,
+    },
+  },
 })

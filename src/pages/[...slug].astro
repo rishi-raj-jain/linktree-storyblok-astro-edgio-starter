@@ -1,0 +1,32 @@
+---
+import { getUserInfo } from '@/lib/user'
+import Layout from '@/layouts/Layout.astro'
+import Link from '@/components/Shared/Link.astro'
+import Share from '@/components/Shared/Share.astro'
+import Social from '@/components/Shared/Social.astro'
+
+const { slug } = Astro.params
+
+// I'd actually recommend running the site in SSL also in development mode, that's why I configured it accordingly in astro.config.mjs
+/* let url = Astro.request.url.replace('http:', 'https:')
+const origin = Astro.url.origin.replace('http:', 'https:') */
+
+const url = new URL(Astro.request.url)
+const origin = url.origin
+
+let userSlug = slug.toLowerCase(), // shouldn't this always be lowercase?
+  title = '',
+  description = '',
+  image = origin + '/seo/social-media-card.png',
+  icon = origin + '/seo/logo.png'
+
+if (userSlug.endsWith('/')) {
+  userSlug = userSlug.substring(0, userSlug.length - 1)
+}
+
+// Get data from the json file
+const userData = await getUserInfo(userSlug) // I think you can just pass the slug straight as it comes from Astro.params here
+console.log(userData)
+
+// removed everything else just to see whether everything works until here
+---
